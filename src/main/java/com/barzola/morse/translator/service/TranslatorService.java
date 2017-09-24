@@ -1,5 +1,17 @@
 package com.barzola.morse.translator.service;
 
+import org.springframework.http.ResponseEntity;
+
+import com.barzola.morse.translator.entity.RequestMorse;
+import com.barzola.morse.translator.entity.TextEntity;
+/**
+ * Esta interface decodifica una secuencia de bits a codigo morse, tambien decodifica un codigo morse a texto
+ * y codifica un texto a codigo morse.
+ *
+ * @author Gabriel Barzola <gbarzola@gmail.com>
+ *
+ */
+
 public interface TranslatorService {
 	
 	/**
@@ -20,6 +32,15 @@ public interface TranslatorService {
      */
 	public String translate(String morseCode);
 
-	public String translateToMorse(String text);
+	/**
+     * Codifica un texto a codigo morse.
+     *
+     * @param TextEntity  Entidad de Texto.
+     *
+     * @return codigo morse.
+     */
+	public TextEntity translateToMorse(TextEntity text);
+
+	public ResponseEntity<String> translateToMorse(RequestMorse morse);
 
 }
