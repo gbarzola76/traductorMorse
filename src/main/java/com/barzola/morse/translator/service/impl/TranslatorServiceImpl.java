@@ -39,8 +39,8 @@ public class TranslatorServiceImpl implements TranslatorService {
 
 	// Arrays donde guardo la cantidad de 1s y 0s despues de recorrer la
 	// secuencia de bits
-	private List<Integer> amountsZeros;
-	private List<Integer> amounts;
+	private List<Integer> amountsZerosList;
+	private List<Integer> amountsList;
 
 	// Inicializo las variables de los maximos y los minimos de los 0s y los 1s
 	// Los minimos los inicializo en 10 para poder ir bajandolos de acuerdo al
@@ -55,46 +55,35 @@ public class TranslatorServiceImpl implements TranslatorService {
 	private int average = 0;
 
 	/*
-	 * Primero busca los promedios de los 0s y 1s y luego lo decodica a codigo
+	 * Primero busca los promedios de los 0s y 1s y luego lo decodifica a codigo
 	 * morse
-	 * 
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.barzola.morse.translator.service.TranslatorService#decodeBits2Morse(
-	 * java.lang. String)
 	 */
 	@Override
 	public String decodeBits2Morse(String code) {
-		getAverage(code);
-
-		String morseCode = decodeToMorse();
-
-		return morseCode;
-	}
-
-	/*
-	 * Recorre los arrays de los 1s y 0s para decodificarlo a codigo morse.
-	 * 
-	 * Recorre el array de 1s. Si la cantidad es menor o igual al promedio de
-	 * los 1 es un "." Si es mayor al promedio entonces es una "-" y los junta.
-	 * Luego chequea si la cantidad de 0s siguiente es mayor al promedio de 0s entonces
-	 *  es un cambio de letra y agrega un espacio.
-	 *
-	 */
-	private String decodeToMorse() {
 		String character = "";
 		String letter = "";
-
-		for (int i = 0; i < amounts.size(); i++) {
+		
+		//Busqueda de promedios de 0s y 1s
+		getAverage(code);
+		
+		/*
+		 * Recorre los arrays de los 1s y 0s para decodificarlo a codigo morse.
+		 * 
+		 * Recorre el array de 1s. Si la cantidad es menor o igual al promedio de
+		 * los 1 es un "." Si es mayor al promedio entonces es una "-" y los junta.
+		 * Luego chequea si la cantidad de 0s siguiente es mayor al promedio de 0s entonces
+		 *  es un cambio de letra y agrega un espacio.
+		 *
+		 */
+		for (int i = 0; i < amountsList.size(); i++) {
 			character = "";
-			if (amounts.get(i) <= average) {
+			if (amountsList.get(i) <= average) {
 				character = ".";
 			} else {
 				character = "-";
 			}
 			letter += character;
-			if (amountsZeros.get(i + 1) > averageZeros) {
+			if (amountsZerosList.get(i + 1) > averageZeros) {
 				letter += " ";
 			}
 
@@ -103,74 +92,70 @@ public class TranslatorServiceImpl implements TranslatorService {
 		return letter;
 	}
 
-	/*
+	/**
 	 * Recorre la secuencia de bits, suma los 0s y los 1s que hay en secuencia y
-	 * se guardan esas cantidades en dos arrays. Además suma sus cantidades y
+	 * se guardan esas cantidades en dos arrays (amounts y amountsZeros). Además suma sus cantidades y
 	 * guarda el promedio de cada uno.
-	 */
+	 **/
 	private void getAverage(String code) {
-		amounts = new ArrayList<Integer>();
-		amountsZeros = new ArrayList<Integer>();
+		amountsList = new ArrayList<Integer>();
+		amountsZerosList = new ArrayList<Integer>();
 
 		int counter = 0;
 		int sum = 0;
-		int amount = 0;
 		Boolean booleanN = false;
 
 		int counterZeros = 0;
 		int sumZeros = 0;
-		int amountZeros = 0;
 		Boolean booleanZero = false;
 
 		String[] parts = code.split("");
 
 		for (int i = 0; i < parts.length; i++) {
-			/*Si el bit es 0, suma 1 a la cantidad de 0s de la secuencia (amount++)
-			* Suma 
+			/** Si el bit es 0, suma 1 a la cantidad de 0s de la secuencia (counterZeros++)
+			* pone en true el booleanZero para "avisar" que había 0s.
+			* Luego chequea si hubo 1s y los agrega al array "amountsList".
 			**/
 			if (parts[i].equals("0")) {
 				counterZeros++;
 				booleanZero = true;
-				if (counterZeros <= minZeros)
-					minZeros = counterZeros;
-				if (counterZeros > maxZeros)
-					maxZeros = counterZeros;
 				
+				/**
+				 * Si hubo 1s anteriormente, se suman y se agregan al arrays correspondiente.
+				 */
 				if (booleanN) {
-					amount++;
 					sum += counter;
-					amounts.add(counter);
+					amountsList.add(counter);
 					booleanN = false;
 				}
 				counter = 0;
 			} else {
+				/** Si el bit es 1, suma 1 a la cantidad de 1s de la secuencia (counter++)
+				* pone en true el booleanN para "avisar" que había 1s.
+				* Luego chequea si hubo 0s y los agrega al array "amountsZerosList"
+				**/
 				counter++;
 				booleanN = true;
-				if (counter <= minNumbers)
-					minNumbers = counter;
-				if (counter > maxNumbers)
-					maxNumbers = counter;
 				
 				if (booleanZero) {
-					amountZeros++;
 					sumZeros += counterZeros;
-					amountsZeros.add(counterZeros);
+					amountsZerosList.add(counterZeros);
 					booleanZero = false;
 				}
 				counterZeros = 0;
 			}
 		}
+		
 		// Cuando se termina la secuencia de bits por encontrarse un espacio
-		// prolongado
-		// se agrega la ultima cantidad de 0s al array correspondiente.
+		// prolongado se agrega la ultima cantidad de 0s al array correspondiente.
 		if (booleanZero) {
-			amountZeros++;
 			sumZeros += counterZeros;
-			amountsZeros.add(counterZeros);
+			amountsZerosList.add(counterZeros);
 			booleanZero = false;
 		}
-		averageZeros = sumZeros / amountZeros;
-		average = sum / amount;
+		
+		averageZeros = sumZeros / amountsZerosList.size();
+		average = sum / amountsList.size();
 	}
 
 	/*
