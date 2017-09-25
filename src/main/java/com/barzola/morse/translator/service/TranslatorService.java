@@ -36,13 +36,21 @@ public interface TranslatorService {
 	/**
 	 * Codifica un texto a codigo morse.
 	 *
-	 * @param RequestMorse
+	 * @param RequestText
 	 *            Entidad de Texto.
 	 *
 	 * @return codigo morse.
 	 */
 	public String translateToMorse(RequestText text);
-
+	
+	/**
+	 * Codifica un codigo morse a texto.
+	 *
+	 * @param RequestMorse
+	 *            codigo morse.
+	 *
+	 * @return text.
+	 */
 	public String translateToText(RequestMorse morse);
 
 }

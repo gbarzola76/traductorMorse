@@ -24,7 +24,7 @@ public class TranslatorServiceImpl implements TranslatorService {
 			"-----", ".----", "..---", "...--", "....-", ".....", "-....", "--...", "---..", "----.", " " };
 
 	/*
-	 * Mapeo los arrays de las letras y caracteres morse para la codificación y
+	 * Mapeo de los arrays de letras y caracteres morse para la codificación y
 	 * decodificación del código morse a letras y viceversa.
 	 */
 	private final Map<String, String> morseToLetters = IntStream.range(0, morse.length).boxed()
@@ -75,8 +75,8 @@ public class TranslatorServiceImpl implements TranslatorService {
 	 *	de los 1 es un "."
 	 *	Si es mayor al promedio entonces es una "-"
 	 *	Y luego si la cantidad de 0s siguiente es mayor al promedio entonces
-	 *	es un cambio de caracter y agrega
-	 *	un espacio
+	 *	es un cambio de caracter y agrega un espacio
+	 *
 	 */
 	private String decodeToMorse() {
 		String character = "";
@@ -100,13 +100,14 @@ public class TranslatorServiceImpl implements TranslatorService {
 	}
 
 	/*
-	 * Recorro la secuencia de bits, sumo los 0s y los 1s que hay en secuencia y
-	 * guardo esas cantidades en dos arrays. Ademas sumo sus cantidades y saco y
-	 * guardo el promedio de cada uno.
+	 * Recorre la secuencia de bits, suma los 0s y los 1s que hay en secuencia y
+	 * se guardan esas cantidades en dos arrays. Además suma sus cantidades y guarda
+	 *  el promedio de cada uno.
 	 */
 	private void getAverage(String code) {
 		amounts = new ArrayList<Integer>();
 		amountsZeros = new ArrayList<Integer>();
+		
 		int counter = 0;
 		int sum = 0;
 		int amount = 0;
@@ -118,7 +119,7 @@ public class TranslatorServiceImpl implements TranslatorService {
 		Boolean booleanZero = false;
 
 		String[] parts = code.split("");
-
+		
 		for (int i = 0; i < parts.length; i++) {
 			if (parts[i].equals("0") || parts[i].length() == i) {
 				if (booleanN) {
@@ -152,6 +153,8 @@ public class TranslatorServiceImpl implements TranslatorService {
 					maxNumbers = counter;
 			}
 		}
+		//Cuando se termina la secuencia de bits por encontrarse un espacio prolongado
+		//se agrega la ultima cantidad de 0s al array correspondiente.
 		if (booleanZero) {
 			amountZeros++;
 			sumZeros += counterZeros;
