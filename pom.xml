@@ -44,12 +44,11 @@
 			<version>2.6</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.springframework/spring-core -->
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-core</artifactId>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
 		</dependency>
-
 
 	</dependencies>
 

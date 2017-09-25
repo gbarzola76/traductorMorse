@@ -1,26 +1,20 @@
 package com.barzola.morse.translator.service.impl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import org.apache.commons.lang.ArrayUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.barzola.morse.translator.entity.RequestMorse;
-import com.barzola.morse.translator.entity.TextEntity;
+import com.barzola.morse.translator.request.RequestMorse;
+import com.barzola.morse.translator.request.RequestText;
 import com.barzola.morse.translator.service.TranslatorService;
 
 @Service
 public class TranslatorServiceImpl implements TranslatorService {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(TranslatorServiceImpl.class);
 
 	// Defino los arrays de las letras y los caracteres del codigo morse.
 	private static String[] letters = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P",
@@ -29,9 +23,10 @@ public class TranslatorServiceImpl implements TranslatorService {
 			".-..", "--", "-.", "---", ".--.", "--.-", ".-.", "...", "-", "..-", "...-", ".--", "-..-", "-.--", "--..",
 			"-----", ".----", "..---", "...--", "....-", ".....", "-....", "--...", "---..", "----.", " " };
 
-	// Mapeo los arrays de las letras para la codificación y decodificación del
-	// código morse a letras
-	// y viceversa.
+	/*
+	 * Mapeo los arrays de las letras y caracteres morse para la codificación y
+	 * decodificación del código morse a letras y viceversa.
+	 */
 	private final Map<String, String> morseToLetters = IntStream.range(0, morse.length).boxed()
 			.collect(Collectors.toMap(i -> morse[i], i -> letters[i]));
 	private final Map<String, String> lettersToMorse = IntStream.range(0, letters.length).boxed()
@@ -61,11 +56,11 @@ public class TranslatorServiceImpl implements TranslatorService {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.barzola.morse.translator.service.TranslatorService#decode(java.lang.
+	 * com.barzola.morse.translator.service.TranslatorService#decodeBits2Morse(java.lang.
 	 * String)
 	 */
 	@Override
-	public String decode(String code) {
+	public String decodeBits2Morse(String code) {
 		getAverage(code);
 
 		String morseCode = decodeToMorse();
@@ -75,18 +70,18 @@ public class TranslatorServiceImpl implements TranslatorService {
 
 	/*
 	 * Recorre los arrays de los 1s y 0s para decodificarlo a codigo morse.
+	 * 
+	 *  Recorro el array de 1s. Si la cantidad es menor o igual al promedio
+	 *	de los 1 es un "."
+	 *	Si es mayor al promedio entonces es una "-"
+	 *	Y luego si la cantidad de 0s siguiente es mayor al promedio entonces
+	 *	es un cambio de caracter y agrega
+	 *	un espacio
 	 */
 	private String decodeToMorse() {
-		// Inicializo las variables
 		String character = "";
 		String letter = "";
 
-		// Recorro el array de 1s. Si la cantidad es menor o igual al promedio
-		// de los 1s es un .
-		// Si es mayor al promedio entonces es una -
-		// Y luego si la cantidad de 0s siguiente es mayor al promedio entonces
-		// es un cambio de caracter y agrega
-		// un espacio
 		for (int i = 0; i < amounts.size(); i++) {
 			character = "";
 			if (amounts.get(i) <= average) {
@@ -173,11 +168,11 @@ public class TranslatorServiceImpl implements TranslatorService {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.barzola.morse.translator.service.TranslatorService#translate(java.
+	 * com.barzola.morse.translator.service.TranslatorService#translate2Human(java.
 	 * lang.String)
 	 */
 	@Override
-	public String translate(String morseCode) {
+	public String translate2Human(String morseCode) {
 
 		StringBuilder wordBuilder = new StringBuilder();
 		String[] codes = morseCode.trim().split(" ");
@@ -190,51 +185,49 @@ public class TranslatorServiceImpl implements TranslatorService {
 		return wordBuilder.toString();
 	}
 
-	/*
+	
+	/**
 	 * Recorro el String que recibo y los separo, y luego busco en el array
 	 * morseToLetters la letra correspondiente al caracter encontrado.
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.barzola.morse.translator.service.TranslatorService#translateToMorse(
-	 * com.barzola.morse.translator.entity.TextEntity)
 	 */
 	@Override
-	public TextEntity translateToMorse(TextEntity text) {
-
-		TextEntity texto = new TextEntity();
+	public String translateToMorse(RequestText text) {
+		RequestText requestText = new RequestText();
 
 		StringBuilder morseBuilder = new StringBuilder();
-		String[] words = text.toString().trim().split("");
+		String[] words = text.getText().toString().trim().split("");
 
 		for (String word : words) {
 			String letter = lettersToMorse.get(word);
 			morseBuilder.append(letter).append(" ");
 		}
 
-		texto.setTexto(morseBuilder.toString());
+		requestText.setText(morseBuilder.toString());
 
-		return texto;
+		return requestText.getText();
 	}
-
-	@SuppressWarnings("rawtypes")
+	
+	/**
+	 * Recorro el  codigo morse recibido y busco en el array morseToLetters
+	 * la letra que corresponde al código.
+	 */
 	@Override
-	public ResponseEntity<String> translateToMorse(RequestMorse morse) {
+	public String translateToText(RequestMorse morse) {
 		RequestMorse requestMorse = new RequestMorse();
 		
-		ResponseEntity entity = new ResponseEntity<String>(null);
+		StringBuilder wordBuilder = new StringBuilder();
+		String[] codes = morse.getText().trim().split(" ");
 
-		StringBuilder morseBuilder = new StringBuilder();
-		String[] words = morse.toString().trim().split("");
-
-		for (String word : words) {
-			String letter = lettersToMorse.get(word);
-			morseBuilder.append(letter).append(" ");
+		for (String code : codes) {
+			String letter = morseToLetters.get(code);
+			wordBuilder.append(letter);
 		}
-
-		requestMorse.setText(morseBuilder.toString());
-
-		return entity.getStatusCode();
+		
+		requestMorse.setText(wordBuilder.toString());
+		
+		return requestMorse.getText();
 	}
+
+
 
 }
