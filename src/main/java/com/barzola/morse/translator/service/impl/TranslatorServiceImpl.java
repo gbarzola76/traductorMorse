@@ -12,9 +12,14 @@ import com.barzola.morse.translator.request.RequestMorse;
 import com.barzola.morse.translator.request.RequestText;
 import com.barzola.morse.translator.service.TranslatorService;
 
+/**
+ * Capa de negocio del traductor.
+ * 
+ * @author gabriel.barzola
+ *
+ */
 @Service
 public class TranslatorServiceImpl implements TranslatorService {
-
 
 	// Defino los arrays de las letras y los caracteres del codigo morse.
 	private static String[] letters = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P",
@@ -56,8 +61,8 @@ public class TranslatorServiceImpl implements TranslatorService {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.barzola.morse.translator.service.TranslatorService#decodeBits2Morse(java.lang.
-	 * String)
+	 * com.barzola.morse.translator.service.TranslatorService#decodeBits2Morse(
+	 * java.lang. String)
 	 */
 	@Override
 	public String decodeBits2Morse(String code) {
@@ -71,11 +76,10 @@ public class TranslatorServiceImpl implements TranslatorService {
 	/*
 	 * Recorre los arrays de los 1s y 0s para decodificarlo a codigo morse.
 	 * 
-	 *  Recorro el array de 1s. Si la cantidad es menor o igual al promedio
-	 *	de los 1 es un "."
-	 *	Si es mayor al promedio entonces es una "-"
-	 *	Y luego si la cantidad de 0s siguiente es mayor al promedio entonces
-	 *	es un cambio de caracter y agrega un espacio
+	 * Recorre el array de 1s. Si la cantidad es menor o igual al promedio de
+	 * los 1 es un "." Si es mayor al promedio entonces es una "-" y los junta.
+	 * Luego chequea si la cantidad de 0s siguiente es mayor al promedio de 0s entonces
+	 *  es un cambio de letra y agrega un espacio.
 	 *
 	 */
 	private String decodeToMorse() {
@@ -101,13 +105,13 @@ public class TranslatorServiceImpl implements TranslatorService {
 
 	/*
 	 * Recorre la secuencia de bits, suma los 0s y los 1s que hay en secuencia y
-	 * se guardan esas cantidades en dos arrays. Además suma sus cantidades y guarda
-	 *  el promedio de cada uno.
+	 * se guardan esas cantidades en dos arrays. Además suma sus cantidades y
+	 * guarda el promedio de cada uno.
 	 */
 	private void getAverage(String code) {
 		amounts = new ArrayList<Integer>();
 		amountsZeros = new ArrayList<Integer>();
-		
+
 		int counter = 0;
 		int sum = 0;
 		int amount = 0;
@@ -119,9 +123,19 @@ public class TranslatorServiceImpl implements TranslatorService {
 		Boolean booleanZero = false;
 
 		String[] parts = code.split("");
-		
+
 		for (int i = 0; i < parts.length; i++) {
-			if (parts[i].equals("0") || parts[i].length() == i) {
+			/*Si el bit es 0, suma 1 a la cantidad de 0s de la secuencia (amount++)
+			* Suma 
+			**/
+			if (parts[i].equals("0")) {
+				counterZeros++;
+				booleanZero = true;
+				if (counterZeros <= minZeros)
+					minZeros = counterZeros;
+				if (counterZeros > maxZeros)
+					maxZeros = counterZeros;
+				
 				if (booleanN) {
 					amount++;
 					sum += counter;
@@ -129,14 +143,14 @@ public class TranslatorServiceImpl implements TranslatorService {
 					booleanN = false;
 				}
 				counter = 0;
-
-				counterZeros++;
-				booleanZero = true;
-				if (counterZeros <= minZeros)
-					minZeros = counterZeros;
-				if (counterZeros > maxZeros)
-					maxZeros = counterZeros;
 			} else {
+				counter++;
+				booleanN = true;
+				if (counter <= minNumbers)
+					minNumbers = counter;
+				if (counter > maxNumbers)
+					maxNumbers = counter;
+				
 				if (booleanZero) {
 					amountZeros++;
 					sumZeros += counterZeros;
@@ -144,17 +158,11 @@ public class TranslatorServiceImpl implements TranslatorService {
 					booleanZero = false;
 				}
 				counterZeros = 0;
-
-				counter++;
-				booleanN = true;
-				if (counter <= minNumbers)
-					minNumbers = counter;
-				if (counter > maxNumbers)
-					maxNumbers = counter;
 			}
 		}
-		//Cuando se termina la secuencia de bits por encontrarse un espacio prolongado
-		//se agrega la ultima cantidad de 0s al array correspondiente.
+		// Cuando se termina la secuencia de bits por encontrarse un espacio
+		// prolongado
+		// se agrega la ultima cantidad de 0s al array correspondiente.
 		if (booleanZero) {
 			amountZeros++;
 			sumZeros += counterZeros;
@@ -171,8 +179,8 @@ public class TranslatorServiceImpl implements TranslatorService {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.barzola.morse.translator.service.TranslatorService#translate2Human(java.
-	 * lang.String)
+	 * com.barzola.morse.translator.service.TranslatorService#translate2Human(
+	 * java. lang.String)
 	 */
 	@Override
 	public String translate2Human(String morseCode) {
@@ -188,7 +196,6 @@ public class TranslatorServiceImpl implements TranslatorService {
 		return wordBuilder.toString();
 	}
 
-	
 	/**
 	 * Recorro el String que recibo y los separo, y luego busco en el array
 	 * morseToLetters la letra correspondiente al caracter encontrado.
@@ -209,15 +216,15 @@ public class TranslatorServiceImpl implements TranslatorService {
 
 		return requestText.getText();
 	}
-	
+
 	/**
-	 * Recorro el  codigo morse recibido y busco en el array morseToLetters
-	 * la letra que corresponde al código.
+	 * Recorro el codigo morse recibido y busco en el array morseToLetters la
+	 * letra que corresponde al código.
 	 */
 	@Override
 	public String translateToText(RequestMorse morse) {
 		RequestMorse requestMorse = new RequestMorse();
-		
+
 		StringBuilder wordBuilder = new StringBuilder();
 		String[] codes = morse.getText().trim().split(" ");
 
@@ -225,12 +232,10 @@ public class TranslatorServiceImpl implements TranslatorService {
 			String letter = morseToLetters.get(code);
 			wordBuilder.append(letter);
 		}
-		
+
 		requestMorse.setText(wordBuilder.toString());
-		
+
 		return requestMorse.getText();
 	}
-
-
 
 }

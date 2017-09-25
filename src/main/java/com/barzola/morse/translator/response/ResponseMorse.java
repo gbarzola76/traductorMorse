@@ -1,25 +1,30 @@
 package com.barzola.morse.translator.response;
 
+/**
+ * DTO del response.
+ * @author gabriel.barzola
+ *
+ */
 public class ResponseMorse {
 
-    private String response;
+	private String response;
 
-    private int code;
+	private int code;
 
-    public String getResponse() {
-        return response;
-    }
+	public String getResponse() {
+		return response;
+	}
 
-    public void setResponse(String response) {
-        this.response = response;
-    }
+	public void setResponse(String response) {
+		this.response = response;
+	}
 
-    public int getCode() {
-        return code;
-    }
+	public int getCode() {
+		return code;
+	}
 
-    public void setCode(int code) {
-        this.code = code;
-    }
+	public void setCode(int code) {
+		this.code = code;
+	}
 
 }

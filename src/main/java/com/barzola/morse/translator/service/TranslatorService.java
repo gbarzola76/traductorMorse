@@ -10,7 +10,6 @@ import com.barzola.morse.translator.request.RequestText;
  * @author Gabriel Barzola <gbarzola@gmail.com>
  *
  */
-
 public interface TranslatorService {
 
 	/**
@@ -42,7 +41,7 @@ public interface TranslatorService {
 	 * @return codigo morse.
 	 */
 	public String translateToMorse(RequestText text);
-	
+
 	/**
 	 * Codifica un codigo morse a texto.
 	 *

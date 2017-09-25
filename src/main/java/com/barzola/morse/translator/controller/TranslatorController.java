@@ -2,6 +2,7 @@ package com.barzola.morse.translator.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -31,7 +32,7 @@ public class TranslatorController {
 		return translatorService.translate2Human(morseCode);
 	}
 
-	@RequestMapping(value = "/2morse", method = RequestMethod.POST)
+	@RequestMapping(value = "/2morse", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseMorse toMorse(@RequestBody RequestText text) {
 		ResponseMorse response = new ResponseMorse();
 
@@ -39,14 +40,14 @@ public class TranslatorController {
 		response.setResponse(translatorService.translateToMorse(text));
 		return response;
 	}
-	
-	@RequestMapping(value = "/2text", method = RequestMethod.POST)
+
+	@RequestMapping(value = "/2text", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseMorse toText(@RequestBody RequestMorse morse) {
 		ResponseMorse response = new ResponseMorse();
-		
+
 		response.setCode(HttpStatus.OK.value());
 		response.setResponse(translatorService.translateToText(morse));
 		return response;
 	}
-	
+
 }

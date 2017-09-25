@@ -1,7 +1,7 @@
 package com.barzola.morse.translator.request;
 
 public class RequestText {
-	
+
 	private String text;
 
 	public String getText() {
@@ -11,6 +11,5 @@ public class RequestText {
 	public void setText(String text) {
 		this.text = text;
 	}
-
 
 }
