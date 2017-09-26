@@ -39,6 +39,8 @@ https://morse-meli.herokuapp.com/translate/2morse
 
 Se pasa por POST por Body raw JSON(application/json) {"text":"HOLA MELI"}
 
+También puede probarse con curl:
+
 $ curl -H "Content-Type: application/json" -X POST https://morse-meli.herokuapp.com/translate/2morse -d '{"text":"HOLA MELI"}'
 
 
@@ -50,9 +52,13 @@ https://morse-meli.herokuapp.com/translate/2text
 
 Se pasa por POST por Body raw JSON(application/json) {"text": ".... --- .-.. .- -- . .-.. .."}
 
-También puede probarse con curl
+También puede probarse con curl:
 
 $ curl -H "Content-Type: application/json" -X POST https://morse-meli.herokuapp.com/translate/2text -d '{"text": ".... --- .-.. .- -- . .-.. .."}'
+
+
+
+Link del Postman https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop
 
 
 

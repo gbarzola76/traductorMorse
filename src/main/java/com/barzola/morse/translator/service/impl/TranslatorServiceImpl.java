@@ -42,14 +42,6 @@ public class TranslatorServiceImpl implements TranslatorService {
 	private List<Integer> amountsZerosList;
 	private List<Integer> amountsList;
 
-	// Inicializo las variables de los maximos y los minimos de los 0s y los 1s
-	// Los minimos los inicializo en 10 para poder ir bajandolos de acuerdo al
-	// minimo encontrado.
-	private int minZeros = 10;
-	private int maxZeros = 0;
-	private int minNumbers = 10;
-	private int maxNumbers = 0;
-
 	// Inicializo los promedios en 0
 	private int averageZeros = 0;
 	private int average = 0;
