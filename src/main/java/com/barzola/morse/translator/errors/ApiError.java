@@ -8,16 +8,16 @@ package com.barzola.morse.translator.errors;
 public interface ApiError {
 
     /**
-     * Define a error type.
+     * Define un tipo de error.
      *
-     * @return the type error.
+     * @return type error.
      */
     ErrorTypes getErrorType();
 
     /**
-     * Describes the error for the client side
-     *
-     * @return the code error for messages.
+     * Describe el error para el cliente.
+     * 
+     * @return el codigo de error para los mensajes.
      */
     String getCodeMessage();
 }

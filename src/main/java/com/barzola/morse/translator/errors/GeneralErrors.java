@@ -8,17 +8,17 @@ package com.barzola.morse.translator.errors;
  */
 public enum GeneralErrors implements ApiError {
 
-	    // Described a general errors
+	    // General errors
 	    UNSPECTED_ERROR(ErrorTypes.GENERAL_ERROR, "system.error.unspected"),
 	    ARGUMENTOS_INVALIDOS(ErrorTypes.GENERAL_ERROR, "user.error.arguments"),
-	    // Described a system errors
+	    // System errors
 	    SYSTEM_ERROR(ErrorTypes.SYSTEM_ERROR, "system.error.generic"),
 	    SYSTEM_NOSTATUS(ErrorTypes.SYSTEM_ERROR, "system.error.noStatus"),
 	    SYSTEM_INVALID_MESSAGE(ErrorTypes.SYSTEM_ERROR, "system.error.invalid.message"),
 	    SYSTEM_MEDIA_TYPE(ErrorTypes.SYSTEM_ERROR, "system.error.media.type"),
 	    SYSTEM_UNSUPPORTED(ErrorTypes.SYSTEM_ERROR, "system.error.unsupported.method"),
 	    SYSTEM_REST(ErrorTypes.SYSTEM_ERROR, "system.error.rest"),
-	    // Described a business errors
+	    // Business errors
 	    USER_INVALID_MESSAGE(ErrorTypes.BUSINESS_ERROR, "user.error.invalid.message"),
 	    USER_UNSUPPORTED(ErrorTypes.BUSINESS_ERROR, "user.error.unsupported.method"),
 	    USER_BINDING(ErrorTypes.BUSINESS_ERROR, "user.error.binding"),

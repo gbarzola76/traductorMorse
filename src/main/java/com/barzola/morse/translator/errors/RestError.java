@@ -20,14 +20,11 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 public class RestError {
 
     /**
-     * The HTTP status code reported to the client as a result of the operation
+     * El codigo de estado HTTP reporta al cliente como un resultado de la operacion.
      */
     @JsonSerialize(using = HttpStatusCodeSerializer.class)
     public HttpStatus status;
 
-    /**
-     * Why the API call failed
-     */
     private ErrorTypes errorTypes;
 
     private String path;
@@ -35,7 +32,7 @@ public class RestError {
     private Date time;
 
     /**
-     * A verbose description of the problem
+     * Descripcion del problema
      */
     private String description;
 
