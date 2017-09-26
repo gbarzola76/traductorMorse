@@ -1,11 +1,11 @@
 package com.barzola.morse.translator.request;
 
 /**
- * Este objeto modela las llamadas al controlador para convertir un texto a morse.
+ * Este objeto modela las llamadas al controlador para convertir un texto a morse y viceversa.
  * @author gabriel.barzola
  *
  */
-public class RequestText {
+public class RequestCode {
 
 	private String text;
 

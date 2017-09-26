@@ -1,7 +1,7 @@
 package com.barzola.morse.translator.service;
 
-import com.barzola.morse.translator.request.RequestMorse;
-import com.barzola.morse.translator.request.RequestText;
+import com.barzola.morse.translator.enums.RequestType;
+import com.barzola.morse.translator.exceptions.ApiException;
 
 /**
  * Esta interface decodifica una secuencia de bits a codigo morse, tambien
@@ -20,36 +20,14 @@ public interface TranslatorService {
 	 *
 	 * @return codigo morse.
 	 */
-	public String decodeBits2Morse(String code);
+	public String decodeBits2Morse(String code) throws ApiException;
 
 	/**
-	 * Decodifica un codigo morse a texto.
-	 *
-	 * @param morseCode
-	 *            codigo morse.
-	 *
-	 * @return texto traducido.
+	 * 
+	 * @param text
+	 * @param requestType
+	 * @return
 	 */
-	public String translate2Human(String morseCode);
-
-	/**
-	 * Codifica un texto a codigo morse.
-	 *
-	 * @param RequestText
-	 *            Entidad de Texto.
-	 *
-	 * @return codigo morse.
-	 */
-	public String translateToMorse(RequestText text);
-
-	/**
-	 * Codifica un codigo morse a texto.
-	 *
-	 * @param RequestMorse
-	 *            codigo morse.
-	 *
-	 * @return text.
-	 */
-	public String translateToText(RequestMorse morse);
+	public String chooseTranslation(String text, RequestType requestType) throws ApiException;
 
 }

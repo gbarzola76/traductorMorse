@@ -9,8 +9,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.barzola.morse.translator.request.RequestMorse;
-import com.barzola.morse.translator.request.RequestText;
+import com.barzola.morse.translator.enums.RequestType;
+import com.barzola.morse.translator.exceptions.ApiException;
+import com.barzola.morse.translator.request.RequestCode;
 import com.barzola.morse.translator.response.ResponseMorse;
 import com.barzola.morse.translator.service.TranslatorService;
 
@@ -34,8 +35,11 @@ public class TranslatorController {
 	 * @return String 
 	 */
 	@PostMapping(value = "/decodeBits2Morse")
-	public String decodeBits2Morse(@RequestParam String code) {
-		return translatorService.decodeBits2Morse(code);
+	public String decodeBits2Morse(@RequestParam String code) throws ApiException {
+		
+		String codeMorse = translatorService.decodeBits2Morse(code);
+		
+		return codeMorse;
 	}
 
 	/**
@@ -44,8 +48,8 @@ public class TranslatorController {
 	 * @return String.
 	 */
 	@PostMapping(value = "/translate2Human")
-	public String translate2Human(@RequestParam String morseCode) {
-		return translatorService.translate2Human(morseCode);
+	public String translate2Human(@RequestParam String morseCode) throws ApiException {
+		return translatorService.chooseTranslation(morseCode, RequestType.MORSETOTEXT);
 	}
 
 	/**
@@ -54,11 +58,11 @@ public class TranslatorController {
 	 * @return objeto json {"response":".... --- .-.. .-   -- . .-.. .. ","code":200}
 	 */
 	@PostMapping(value = "/2morse")
-	public @ResponseBody ResponseMorse toMorse(@RequestBody RequestText text) {
+	public @ResponseBody ResponseMorse toMorse(@RequestBody RequestCode text) throws ApiException {
 		ResponseMorse response = new ResponseMorse();
 
 		response.setCode(HttpStatus.OK.value());
-		response.setResponse(translatorService.translateToMorse(text));
+		response.setResponse(translatorService.chooseTranslation(text.getText(), RequestType.TEXTTOMORSE));
 		return response;
 	}
 
@@ -68,11 +72,11 @@ public class TranslatorController {
 	 * @return objeto json {"response":"HOLAMELI","code":200}
 	 */
 	@PostMapping(value = "/2text")
-	public @ResponseBody ResponseMorse toText(@RequestBody RequestMorse morse) {
+	public @ResponseBody ResponseMorse toText(@RequestBody RequestCode morse) throws ApiException {
 		ResponseMorse response = new ResponseMorse();
 
 		response.setCode(HttpStatus.OK.value());
-		response.setResponse(translatorService.translateToText(morse));
+		response.setResponse(translatorService.chooseTranslation(morse.getText(), RequestType.MORSETOTEXT));
 		return response;
 	}
 
