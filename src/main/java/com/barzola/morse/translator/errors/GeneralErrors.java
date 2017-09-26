@@ -1,6 +1,11 @@
 package com.barzola.morse.translator.errors;
 
-
+/**
+ * Este enum describe los errores para las excepciones de la aplicación.
+ * 
+ * @author gabriel.barzola
+ *
+ */
 public enum GeneralErrors implements ApiError {
 
 	    // Described a general errors

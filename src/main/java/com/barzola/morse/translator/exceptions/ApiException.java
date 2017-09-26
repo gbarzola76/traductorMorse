@@ -2,6 +2,11 @@ package com.barzola.morse.translator.exceptions;
 
 import com.barzola.morse.translator.errors.ApiError;
 
+/**
+ * Excepcion API para los errores de la aplicacion.
+ * @author gabriel.barzola
+ *
+ */
 public class ApiException extends Exception{
 
 	/**

@@ -5,10 +5,17 @@ import java.util.Date;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 
+import com.barzola.morse.translator.exceptions.ApiException;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+/**
+ * Cualquier {@link ApiException} es trasladada a esta clase para ser serializada y reportada al usuario.
+ * 
+ * @author gabriel.barzola
+ *
+ */
 @JsonInclude(value = Include.NON_NULL)
 public class RestError {
 

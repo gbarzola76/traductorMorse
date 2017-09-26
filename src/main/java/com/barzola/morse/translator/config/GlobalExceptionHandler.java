@@ -28,6 +28,8 @@ import com.barzola.morse.translator.exceptions.ApiException;
 
 /**
  * Provee el manejo general de las excepciones del controlador. 
+ * @author gabriel.barzola
+ *
  */
 @ResponseBody
 @ControllerAdvice

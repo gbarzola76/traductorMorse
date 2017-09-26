@@ -9,6 +9,12 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Component;
 
+/**
+ * Maneja los mensajes para la aplicación
+ * 
+ * @author gabriel.barzola
+ *
+ */
 @Component
 public class Messages {
 
