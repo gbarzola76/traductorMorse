@@ -23,12 +23,12 @@ public class TranslatorController {
 	TranslatorService translatorService;
 
 	@RequestMapping(value = "/decodeBits2Morse", method = RequestMethod.POST)
-	public String decodeBits2Morse(@RequestBody String code) {
+	public String decodeBits2Morse(@RequestParam String code) {
 		return translatorService.decodeBits2Morse(code);
 	}
 
 	@RequestMapping(value = "/translate2Human", method = RequestMethod.POST)
-	public String translate2Human(@RequestBody String morseCode) {
+	public String translate2Human(@RequestParam String morseCode) {
 		return translatorService.translate2Human(morseCode);
 	}
 
