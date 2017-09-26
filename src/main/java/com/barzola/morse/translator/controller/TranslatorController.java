@@ -2,9 +2,9 @@ package com.barzola.morse.translator.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,7 +33,7 @@ public class TranslatorController {
 	 * @param code
 	 * @return String 
 	 */
-	@RequestMapping(value = "/decodeBits2Morse", method = RequestMethod.POST)
+	@PostMapping(value = "/decodeBits2Morse")
 	public String decodeBits2Morse(@RequestParam String code) {
 		return translatorService.decodeBits2Morse(code);
 	}
@@ -43,7 +43,7 @@ public class TranslatorController {
 	 * @param morseCode
 	 * @return String.
 	 */
-	@RequestMapping(value = "/translate2Human", method = RequestMethod.POST)
+	@PostMapping(value = "/translate2Human")
 	public String translate2Human(@RequestParam String morseCode) {
 		return translatorService.translate2Human(morseCode);
 	}
@@ -53,7 +53,7 @@ public class TranslatorController {
 	 * @param text
 	 * @return objeto json {"response":".... --- .-.. .-   -- . .-.. .. ","code":200}
 	 */
-	@RequestMapping(value = "/2morse", method = RequestMethod.POST)
+	@PostMapping(value = "/2morse")
 	public @ResponseBody ResponseMorse toMorse(@RequestBody RequestText text) {
 		ResponseMorse response = new ResponseMorse();
 
@@ -67,7 +67,7 @@ public class TranslatorController {
 	 * @param text
 	 * @return objeto json {"response":"HOLAMELI","code":200}
 	 */
-	@RequestMapping(value = "/2text", method = RequestMethod.POST)
+	@PostMapping(value = "/2text")
 	public @ResponseBody ResponseMorse toText(@RequestBody RequestMorse morse) {
 		ResponseMorse response = new ResponseMorse();
 
