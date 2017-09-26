@@ -23,16 +23,16 @@ public class TranslatorController {
 	TranslatorService translatorService;
 
 	@RequestMapping(value = "/decodeBits2Morse", method = RequestMethod.POST)
-	public String decodeBits2Morse(@RequestParam String code) {
+	public String decodeBits2Morse(@RequestBody String code) {
 		return translatorService.decodeBits2Morse(code);
 	}
 
 	@RequestMapping(value = "/translate2Human", method = RequestMethod.POST)
-	public String translate2Human(@RequestParam String morseCode) {
+	public String translate2Human(@RequestBody String morseCode) {
 		return translatorService.translate2Human(morseCode);
 	}
 
-	@RequestMapping(value = "/2morse", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/2morse", method = RequestMethod.POST)
 	public @ResponseBody ResponseMorse toMorse(@RequestBody RequestText text) {
 		ResponseMorse response = new ResponseMorse();
 
@@ -41,7 +41,7 @@ public class TranslatorController {
 		return response;
 	}
 
-	@RequestMapping(value = "/2text", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/2text", method = RequestMethod.POST)
 	public @ResponseBody ResponseMorse toText(@RequestBody RequestMorse morse) {
 		ResponseMorse response = new ResponseMorse();
 
