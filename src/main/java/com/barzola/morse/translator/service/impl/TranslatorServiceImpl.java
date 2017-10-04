@@ -119,8 +119,8 @@ public class TranslatorServiceImpl implements TranslatorService {
 					sum += counter;
 					amountsList.add(counter);
 					booleanN = false;
+					counter = 0;
 				}
-				counter = 0;
 			} else {
 				/** Si el bit es 1, suma 1 a la cantidad de 1s de la secuencia (counter++)
 				* pone en true el booleanN para "avisar" que había 1s.
@@ -133,8 +133,8 @@ public class TranslatorServiceImpl implements TranslatorService {
 					sumZeros += counterZeros;
 					amountsZerosList.add(counterZeros);
 					booleanZero = false;
-				}
-				counterZeros = 0;
+					counterZeros = 0;
+				}				
 			}
 		}
 		
@@ -171,10 +171,12 @@ public class TranslatorServiceImpl implements TranslatorService {
 	 * @return
 	 */
 	private String translate(String text, Map<String, String> map) {
+		Boolean toMorse = false;
 		StringBuilder morseBuilder = new StringBuilder();
 		String[] words = null;
 		if(map.get("A") != null){
 			words = text.split("");
+			toMorse = true;
 		}
 		else
 		{
@@ -184,6 +186,7 @@ public class TranslatorServiceImpl implements TranslatorService {
 		for (String word : words) {
 			String letter = map.get(word);
 			morseBuilder.append(letter);
+			if(toMorse) morseBuilder.append(" ");
 		}		
 
 		return morseBuilder.toString();
